@@ -11,6 +11,12 @@ const error = (code, message) => {
   return err
 }
 
+const dist = (req) => (
+  new Promise((resolve, reject) => {
+    resolve({})
+  })
+)
+
 const login = (req) => (
   new Promise((resolve, reject) => {
     const { name, password } = req.body
@@ -29,45 +35,56 @@ const login = (req) => (
 
 const publish = (req) => (
   new Promise((resolve, reject) => {
-    resolve()
+    resolve({})
   })
 )
 
-const get = (req) => (
+const ping = (req) => (
   new Promise((resolve, reject) => {
-    resolve()
+    resolve({})
   })
 )
 
-const route = (req) => (
+const meta = (req) => (
   new Promise((resolve, reject) => {
-    let promise
+    resolve({})
+  })
+)
 
-    switch (req.method) {
-      case 'PUT':
-        if (req.url.startsWith('/-/user/')) {
-          promise = login(req)
-        } else {
-          promise = publish(req)
+const routes = []
+
+const route = (method, regexp, route) => {
+  routes.push({ method, regexp, route })
+}
+
+const router = (req) => (
+  new Promise((resolve, reject) => {
+    for (const r of routes) {
+      if (req.method.toLowerCase() === r.method) {
+        if (req.url.match(new RegExp(`^${r.regexp}$`))) {
+          console.log(r, new RegExp(`^${r.regexp}$`))
+          return r.route(req)
+            .then(resolve)
+            .catch(reject)
         }
-        break
-      case 'GET':
-        promise = get(req)
-        break
-      default:
-        return reject(error(405))
+      }
     }
-
-    return promise
-      .then(resolve)
-      .catch(reject)
+    reject(error(404))
   })
 )
 
-exports.npm = function registry (req, res) {
+route('del', '/-/package/.*/dist-tags/.*', dist)
+route('put', '/-/package/.+/dist-tags/.+', dist)
+route('put', '/-/user/.+', login)
+route('put', '/.+', publish)
+route('get', '/-/package/.+/dist-tags', dist)
+route('get', '/-/ping', ping)
+route('get', '/.+', meta)
+
+exports.npm = (req, res) => {
   console.log(req.method, req.url, req.body)
 
-  return route(req)
+  return router(req)
     .then(({ status = 200, body = '' }) => {
       res.status(status).send(body)
     })
