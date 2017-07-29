@@ -9,7 +9,6 @@ npm unpublish pkg@version
 
 ### TODO
 
-npm search pkg
 npm owner add <user> <package name>
 npm access restricted <package_name>
 

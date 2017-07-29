@@ -3,6 +3,7 @@
 const storage = require('../lib/storage')
 const proxy = require('../lib/proxy')
 const error = require('../lib/error')
+const merge = require('../lib/merge')
 const config = require('../config')
 const crypto = require('crypto')
 const path = require('path')
@@ -34,8 +35,8 @@ const publish = (req, res) => (
         if (Object.keys(p.versions).find(v => v === body['dist-tags'][tag])) {
           throw error(409, 'version already exists')
         }
-        body.versions = Object.assign(p.versions, body.versions)
-        body['dist-tags'] = Object.assign(p['dist-tags'], body['dist-tags'])
+        body.versions = merge(p.versions, body.versions)
+        body['dist-tags'] = merge(p['dist-tags'], body['dist-tags'])
         body.etag = Math.random().toString()
       })
       .catch(() => {})
@@ -69,10 +70,14 @@ const publish = (req, res) => (
         const date = new Date().toISOString().split('T')[0]
         const version = body['dist-tags'].latest
         const meta = body['versions'][version]
-        let { name, description, author, keywords } = meta
-        keywords = keywords.join(',')
-        author = author.name
-        const metadata = { name, description, author, date, version, keywords }
+        let { name, description, maintainers, keywords } = meta
+        keywords = JSON.stringify(keywords)
+        maintainers = maintainers.map(m => {
+          if (!('username' in m)) m.username = m.name
+          return m
+        })
+        maintainers = JSON.stringify(maintainers)
+        const metadata = { name, scope, description, maintainers, date, version, keywords }
 
         return storage('save', pkg, JSON.stringify(body), {
           metadata: {

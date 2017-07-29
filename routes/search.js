@@ -17,25 +17,32 @@ const search = (req, res) => (
       return
     }
 
-    return storage('download', pkg)
-      .then(p => (JSON.parse(p.toString('utf8'))))
-      .then(p => ({
-        status: 200,
-        body: p
-      }))
-      .then(resolve)
-      .catch(reject)
-  })
-)
+    return storage.bucket.getFiles({ prefix: pkg, maxResults: size | 10 })
+      .then(([files]) => {
+        const body = {}
 
-const index = () => (
-  new Promise((resolve, reject) => {
-    return storage.bucket.getFiles({ prefix: 'packages/' })
-      .then(([res]) => {
-        res.forEach(file => {
-          console.log(file.name, file.metadata)
-          // [name, description, author, date, version, keywords]
-        })
+        if (files.length) {
+          body.objects = []
+
+          files.forEach(file => {
+            const f = file.metadata.metadata
+
+            body.objects.push({
+              package: {
+                name: f.name,
+                scope: f.scope,
+                version: f.version,
+                description: f.description,
+                maintainers: JSON.parse(f.maintainers),
+                keywords: JSON.parse(f.keywords),
+                date: f.date,
+                searchScore: 1
+              }
+            })
+          })
+        }
+
+        return { status: 200, body }
       })
       .then(resolve)
       .catch(reject)
@@ -43,4 +50,3 @@ const index = () => (
 )
 
 module.exports = search
-module.exports.index = index

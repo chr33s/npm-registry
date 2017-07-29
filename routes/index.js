@@ -19,6 +19,7 @@ route('get', '/-/ping', ping)
 route('get', '/(.+/)?.+/-/.+', tar)
 route('delete', '/.+', unpublish)
 route('put', '/.+', publish)
+route('get', '/-/all', search)
 route('get', '/.+', info)
 
 module.exports = router

@@ -2,6 +2,7 @@
 
 const storage = require('../../lib/storage')
 const proxy = require('../../lib/proxy')
+const merge = require('../../lib/merge')
 const config = require('../../config')
 const params = require('./params')
 
@@ -24,7 +25,7 @@ const add = (req, res) => (
       })
       .then(([p, meta]) => {
         const version = JSON.parse(req.body)
-        p['dist-tags'] = Object.assign(p['dist-tags'], { [tag]: version })
+        p['dist-tags'] = merge(p['dist-tags'], { [tag]: version })
         return storage('save', pkg, JSON.stringify(p), meta)
       })
       .then(() => ({
