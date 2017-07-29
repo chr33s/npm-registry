@@ -17,16 +17,18 @@ const add = (req, res) => (
       return
     }
 
+    console.log(scope, pkg, tag)
+
     return storage('get', pkg)
       .then(([p]) => {
-        const { metadata } = p
+        const { metadata } = p.metadata
         return storage('download', pkg)
           .then(p => ([JSON.parse(p.toString('utf8')), metadata]))
       })
-      .then(([p, meta]) => {
+      .then(([p, metadata]) => {
         const version = JSON.parse(req.body)
         p['dist-tags'] = merge(p['dist-tags'], { [tag]: version })
-        return storage('save', pkg, JSON.stringify(p), meta)
+        return storage('save', pkg, JSON.stringify(p), metadata)
       })
       .then(() => ({
         status: 201,
