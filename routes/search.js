@@ -8,7 +8,7 @@ const search = (req, res) => (
   new Promise((resolve, reject) => {
     const { text, size } = req.query
     const scope = text.split('/')[0]
-    const pkg = `packages/${text}`
+    const pkg = storage.path('package', { name: text }).path
 
     if (!config.scopes.includes(scope)) {
       proxy(req, res)

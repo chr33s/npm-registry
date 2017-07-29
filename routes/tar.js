@@ -8,9 +8,9 @@ const path = require('path')
 const tar = (req, res) => (
   new Promise((resolve, reject) => {
     const url = req.path
-    const file = url.split('/-/')[0].substring(1)
-    const scope = file.split('/')[0]
-    let pkg = `packages/${file}`
+    const name = url.split('/-/')[0].substring(1)
+    const scope = name.split('/')[0]
+    const pkg = storage.path('package', { name }).path
 
     if (!config.scopes.includes(scope)) {
       proxy(req, res)
@@ -22,11 +22,11 @@ const tar = (req, res) => (
     return storage('download', pkg)
       .then(p => (JSON.parse(p.toString('utf8'))))
       .then(p => {
-        const { name, ext } = path.parse(url)
-        const version = name.split('-')[1]
+        const file = path.parse(url)
+        const version = file.name.split('-')[1]
         const sha = p.versions[version].dist.shasum
 
-        return `tarballs/${file}/${name}/${sha}${ext}`
+        return storage.path('tarball', { name, file: file.name, sha, ext: file.ext }).path
       })
       .then(p => (storage('download', p)))
       .then(([p]) => ({

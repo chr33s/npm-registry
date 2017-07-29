@@ -10,7 +10,7 @@ const unpublish = (req, res) => (
     const url = req.path.substring(1).split('/')
     const name = url[0].replace('%2f', '/')
     const scope = name.split('/')[0]
-    const pkg = `packages/${name}`
+    const pkg = storage.path('package', { name }).path
     const rev = url[2]
 
     if (!config.scopes.includes(scope)) {
@@ -29,7 +29,7 @@ const unpublish = (req, res) => (
           const dist = p.versions[version].dist
           const sha = dist.shasum
           const file = path.parse(dist.tarball)
-          const tarball = `tarballs/${name}/${file.name}/${sha}${file.ext}`
+          const tarball = storage.path('tarball', { name, file: file.name, sha, ext: file.ext }).path
 
           promises.push(storage('delete', tarball))
         }

@@ -26,7 +26,7 @@ const publish = (req, res) => (
       return
     }
     const tag = tags[0]
-    const pkg = `packages/${name}`
+    const pkg = storage.path('package', { name }).path
 
     return storage('download', pkg)
       .then(p => (JSON.parse(p.toString('utf8'))))
@@ -50,8 +50,9 @@ const publish = (req, res) => (
           const sha = crypto.createHash('sha1').update(data).digest('hex')
           const ext = path.extname(filename)
           const file = path.basename(filename, ext)
+          const p = storage.path('tarball', { name, file, sha, ext }).path
 
-          promises.push(storage('save', `tarballs/${name}/${file}/${sha}${ext}`, data, {
+          promises.push(storage('save', p, data, {
             metadata: {
               // contentEncoding: req.headers['accept-encoding'],
               contentType: attachment['content_type'],
