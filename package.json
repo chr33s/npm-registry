@@ -3,7 +3,10 @@
   "version": "0.0.1",
   "description": "serverless npm repository",
   "main": "index.js",
-  "scripts": {},
+  "scripts": {
+    "build": "docker build -t chr33s/npm .",
+    "postbuild": "docker run -d -t -i -p 8080:8080 --name npm chr33s/npm"
+  },
   "dependencies": {
     "@google-cloud/logging": "^1.0.4",
     "@google-cloud/storage": "^1.2.1",
