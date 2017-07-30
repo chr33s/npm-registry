@@ -7,7 +7,8 @@
   "dependencies": {
     "@google-cloud/logging": "^1.0.4",
     "@google-cloud/storage": "^1.2.1",
-    "googleapis": "^20.1.0"
+    "googleapis": "^20.1.0",
+    "path-to-regexp": "^1.7.0"
   },
   "engines": {
     "node": ">=8.1.0"

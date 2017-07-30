@@ -10,9 +10,8 @@ const path = require('path')
 
 const publish = (req, res) => (
   new Promise((resolve, reject) => {
-    let body = req.body
-    const { name } = body
-    const scope = (name || '').split('/')[0]
+    const { name, scope } = req.params
+    const { body } = req
 
     if (!config.scopes.includes(scope)) {
       proxy(req, res)

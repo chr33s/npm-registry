@@ -3,11 +3,11 @@
 const storage = require('../../lib/storage')
 const proxy = require('../../lib/proxy')
 const config = require('../../config')
-const params = require('./params')
 
 const ls = (req, res) => (
   new Promise((resolve, reject) => {
-    const { scope, pkg } = params(req.path)
+    const { name, scope } = req.params
+    const pkg = storage.path('package', { name }).path
 
     if (!config.scopes.includes(scope)) {
       proxy(req, res)
