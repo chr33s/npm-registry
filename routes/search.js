@@ -1,21 +1,11 @@
 'use strict'
 
 const storage = require('../lib/storage')
-const proxy = require('../lib/proxy')
-const config = require('../config')
 
 const search = (req, res) => (
   new Promise((resolve, reject) => {
     const { text, size } = req.query
-    const scope = text.split('/')[0]
     const pkg = storage.path('package', { name: text }).path
-
-    if (!config.scopes.includes(scope)) {
-      proxy(req, res)
-        .then(resolve)
-        .catch(reject)
-      return
-    }
 
     return storage.bucket.getFiles({ prefix: pkg, maxResults: size | 10 })
       .then(([files]) => {

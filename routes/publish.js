@@ -1,10 +1,8 @@
 'use strict'
 
 const storage = require('../lib/storage')
-const proxy = require('../lib/proxy')
 const error = require('../lib/error')
 const merge = require('../lib/merge')
-const config = require('../config')
 const crypto = require('crypto')
 const path = require('path')
 
@@ -12,13 +10,6 @@ const publish = (req, res) => (
   new Promise((resolve, reject) => {
     const { name, scope } = req.params
     const { body } = req
-
-    if (!config.scopes.includes(scope)) {
-      proxy(req, res)
-        .then(resolve)
-        .catch(reject)
-      return
-    }
 
     const tags = Object.keys(body['dist-tags'])
     if (tags.length !== 1) {

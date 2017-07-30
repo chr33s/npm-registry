@@ -1,21 +1,12 @@
 'use strict'
 
 const storage = require('../../lib/storage')
-const proxy = require('../../lib/proxy')
 const merge = require('../../lib/merge')
-const config = require('../../config')
 
 const add = (req, res) => (
   new Promise((resolve, reject) => {
-    const { name, scope, tag } = req.params
+    const { name, tag } = req.params
     const pkg = storage.path('package', { name }).path
-
-    if (!config.scopes.includes(scope)) {
-      proxy(req, res)
-        .then(resolve)
-        .catch(reject)
-      return
-    }
 
     return storage('get', pkg)
       .then(([p]) => {
