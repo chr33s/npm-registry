@@ -17,9 +17,9 @@ route('get', '/-/v1/search', search)
 route('put', '/-/user/:user', login)
 route('get', '/-/ping', ping)
 route('get', '/-/all', search)
-route('get', '/:scope?/:name/-/:scope2?/:filename/:sha?', tar)
-route('delete', '/:name+', unpublish)
-route('put', '/:name+', publish)
-route('get', '/:name+', info)
+route('get', '/:name/-/:scope/:filename/:sha?', tar)
+route('delete', '/:name/(-rev)?/:rev?', unpublish)
+route('put', '/:name/(-rev)?/:rev?', publish)
+route('get', '/:name', info)
 
 module.exports = router
