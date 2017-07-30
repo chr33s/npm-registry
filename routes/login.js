@@ -1,21 +1,20 @@
 'use strict'
 
 const error = require('../lib/error')
-const users = require('../users')
+const auth = require('../lib/auth')
 
 const login = (req) => (
   new Promise((resolve, reject) => {
     const { name, password } = req.body
 
-    if (name in users && users[name] === password) {
+    if (auth.login(name, password)) {
       resolve({
         status: 201,
         body: { authentication: {} }
       })
-      return
+    } else {
+      reject(error(401))
     }
-
-    reject(error(401))
   })
 )
 
