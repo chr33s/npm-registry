@@ -7,7 +7,7 @@ const config = require('../config')
 const info = (req, res) => (
   new Promise((resolve, reject) => {
     const name = req.path.substring(1).replace('%2f', '/')
-    const scope = name.split('/')[0]
+    const scope = (name || '').split('/')[0]
     const pkg = storage.path('package', { name }).path
 
     if (!config.scopes.includes(scope)) {

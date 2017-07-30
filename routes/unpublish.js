@@ -9,7 +9,7 @@ const unpublish = (req, res) => (
   new Promise((resolve, reject) => {
     const url = req.path.substring(1).split('/')
     const name = url[0].replace('%2f', '/')
-    const scope = name.split('/')[0]
+    const scope = (name || '').split('/')[0]
     const pkg = storage.path('package', { name }).path
     const rev = url[2]
 

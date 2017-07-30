@@ -9,7 +9,7 @@ const tar = (req, res) => (
   new Promise((resolve, reject) => {
     const url = req.path
     const name = url.split('/-/')[0].substring(1)
-    const scope = name.split('/')[0]
+    const scope = (name || '').split('/')[0]
     const pkg = storage.path('package', { name }).path
 
     if (!config.scopes.includes(scope)) {

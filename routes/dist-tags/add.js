@@ -17,8 +17,6 @@ const add = (req, res) => (
       return
     }
 
-    console.log(scope, pkg, tag)
-
     return storage('get', pkg)
       .then(([p]) => {
         const { metadata } = p.metadata

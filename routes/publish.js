@@ -12,7 +12,7 @@ const publish = (req, res) => (
   new Promise((resolve, reject) => {
     let body = req.body
     const { name } = body
-    const scope = name.split('/')[0]
+    const scope = (name || '').split('/')[0]
 
     if (!config.scopes.includes(scope)) {
       proxy(req, res)
