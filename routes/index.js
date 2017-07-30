@@ -16,10 +16,10 @@ route('get', '/-/package/.+', ls)
 route('get', '/-/v1/search', search)
 route('put', '/-/user/.+', login)
 route('get', '/-/ping', ping)
+route('get', '/-/all', search)
 route('get', '/(.+/)?.+/-/.+', tar)
 route('delete', '/.+', unpublish)
 route('put', '/.+', publish)
-route('get', '/-/all', search)
 route('get', '/.+', info)
 
 module.exports = router
