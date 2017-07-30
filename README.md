@@ -2,15 +2,18 @@
 
 > Private serverless npm registry
 
-### FIXME
-
-- [ ] npm update
-- [ ] npm unpublish [pkg@version]
-
 ### TODO
 
-- [ ] npm owner add [user] [package name>  
-- [ ] npm access restricted [package_name]
+- [ ] npm owner
+  - [ ] add [user] [package]  // ? /-/user/[user]
+  - [ ] rm [user] [package]  // DELETE /-/user/[user]
+- [ ] npm access
+  - [ ] grant [permission] [scope] [package] // PUT
+  - [ ] revoke [scope] [package]  // DELETE
+  - [ ] public [package] // POST /-/package/[package]/access
+  - [ ] restricted [package]  // POST /-/package/[package]/access
+  - [ ] ls-collaborators // GET /-/package/[package]/collaborators
+  - [ ] ls-packages // GET /-/org/[user]/package
 
 ## Setup
 
