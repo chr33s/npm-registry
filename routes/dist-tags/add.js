@@ -15,7 +15,7 @@ const add = (req, res) => (
           .then(p => ([JSON.parse(p.toString('utf8')), metadata]))
       })
       .then(([p, metadata]) => {
-        const version = JSON.parse(req.body)
+        const version = req.body
         p['dist-tags'] = merge(p['dist-tags'], { [tag]: version })
         return storage('save', pkg, JSON.stringify(p), metadata)
       })

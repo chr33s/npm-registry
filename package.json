@@ -5,11 +5,14 @@
   "main": "index.js",
   "scripts": {
     "build": "docker build -t chr33s/npm .",
-    "postbuild": "docker run -d -t -i -p 8080:8080 --name npm chr33s/npm"
+    "postbuild": "docker run -d -t -i -p 8080:8080 --name npm chr33s/npm",
+    "start": "node server"
   },
   "dependencies": {
     "@google-cloud/logging": "^1.0.4",
     "@google-cloud/storage": "^1.2.1",
+    "body-parser": "^1.17.2",
+    "express": "^4.15.3",
     "googleapis": "^20.1.0",
     "path-to-regexp": "^1.7.0"
   },

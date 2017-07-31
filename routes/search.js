@@ -7,15 +7,16 @@ const search = (req, res) => (
     const { text, size } = req.query
     const pkg = storage.path('package', { name: text }).path
 
-    storage.bucket.getFiles({ prefix: pkg, maxResults: size | 10 })
+    storage.bucket.getFiles({ prefix: pkg, maxResults: size | 20 })
       .then(([files]) => {
         const body = {}
 
         if (files.length) {
-          body.objects = []
+          if (!('objects' in body)) body.objects = []
 
           files.forEach(file => {
             const f = file.metadata.metadata
+            if (!f) return
 
             body.objects.push({
               package: {
