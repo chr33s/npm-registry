@@ -19,7 +19,7 @@ const publish = (req, res) => (
     const tag = tags[0]
     const pkg = storage.path('package', { name }).path
 
-    return storage('download', pkg)
+    storage('download', pkg)
       .then(p => (JSON.parse(p.toString('utf8'))))
       .then(p => {
         if (Object.keys(p.versions).find(v => v === body['dist-tags'][tag])) {

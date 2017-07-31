@@ -8,7 +8,7 @@ const add = (req, res) => (
     const { name, tag } = req.params
     const pkg = storage.path('package', { name }).path
 
-    return storage('get', pkg)
+    storage('get', pkg)
       .then(([p]) => {
         const { metadata } = p.metadata
         return storage('download', pkg)

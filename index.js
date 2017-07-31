@@ -8,7 +8,7 @@ const npm = (req, res) => (
       res.status(status).send(body)
     })
     .catch(({ code = 500, message }) => {
-      res.status(code).send({ error: message })
+      res.status(code).send({ code: `E${code}`, error: message })
     })
 )
 

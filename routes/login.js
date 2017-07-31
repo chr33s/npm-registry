@@ -10,7 +10,7 @@ const login = (req) => (
     if (auth.login(name, password)) {
       resolve({
         status: 201,
-        body: { authentication: {} }
+        body: { authentication: req.body }
       })
     } else {
       reject(error(401))

@@ -7,7 +7,7 @@ const info = (req, res) => (
     const { name } = req.params
     const pkg = storage.path('package', { name }).path
 
-    return storage('download', pkg)
+    storage('download', pkg)
       .then(p => (JSON.parse(p.toString('utf8'))))
       .then(p => ({
         status: 200,

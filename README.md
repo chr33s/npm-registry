@@ -30,7 +30,7 @@ npm set ca null
 
 npm init --scope=<scope>   
 npm update --registry=<registry>
-npm login --registry=<registry>
+npm login --registry=<registry> --scope=<scope> --always-auth=true
 npm publish --registry=<registry>
 
 echo "@<scope>:registry=<registry>" >> .npmrc  
