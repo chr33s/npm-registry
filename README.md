@@ -27,6 +27,7 @@ gcloud beta functions logs read npm
 
 ```
 npm set ca null
+npm config set registry <registry>
 
 npm init --scope=<scope>   
 npm update --registry=<registry>

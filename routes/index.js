@@ -20,8 +20,8 @@ route('delete', '-/user/token/:token', logout)
 route('get', '/-/ping', ping)
 route('get', '/-/all', search)
 route('get', '/:name*/-/:scope/:filename/:sha?', tar)
-route('delete', '/:name/(-rev)?/:rev?', unpublish)
-route('put', '/:name/(-rev)?/:rev?', publish)
-route('get', '/:name', info)
+route('delete', '/:name*/(-rev)?/:rev?', unpublish)
+route('put', '/:name*/(-rev)?/:rev?', publish)
+route('get', '/:name*', info)
 
 module.exports = router
