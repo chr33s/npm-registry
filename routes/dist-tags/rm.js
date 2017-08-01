@@ -8,14 +8,15 @@ const rm = (req, res) => (
     const pkg = storage.path('package', { name }).path
 
     storage('get', pkg)
-      .then(([p]) => {
-        const { metadata } = p
-        return storage('download', pkg)
-          .then(p => ([JSON.parse(p.toString('utf8')), metadata]))
-      })
+      .then(([p]) => (
+        storage('download', pkg)
+          .then(d => ([JSON.parse(d.toString('utf8')), p.metadata]))
+      ))
       .then(([p, meta]) => {
+        const { contentType, metadata } = meta
+        const m = { metadata: { contentType, metadata } }
         delete p['dist-tags'][tag]
-        return storage('save', pkg, JSON.stringify(p), meta)
+        return storage('save', pkg, JSON.stringify(p), m)
       })
       .then(() => ({
         status: 201,

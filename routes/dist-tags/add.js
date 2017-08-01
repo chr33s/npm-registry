@@ -5,19 +5,20 @@ const merge = require('../../lib/merge')
 
 const add = (req, res) => (
   new Promise((resolve, reject) => {
+    const version = req.body
     const { name, tag } = req.params
     const pkg = storage.path('package', { name }).path
 
     storage('get', pkg)
-      .then(([p]) => {
-        const { metadata } = p.metadata
-        return storage('download', pkg)
-          .then(p => ([JSON.parse(p.toString('utf8')), metadata]))
-      })
-      .then(([p, metadata]) => {
-        const version = req.body
+      .then(([p]) => (
+        storage('download', pkg)
+          .then(d => ([JSON.parse(d.toString('utf8')), p.metadata]))
+      ))
+      .then(([p, meta]) => {
+        const { contentType, metadata } = meta
+        const m = { metadata: { contentType, metadata } }
         p['dist-tags'] = merge(p['dist-tags'], { [tag]: version })
-        return storage('save', pkg, JSON.stringify(p), metadata)
+        return storage('save', pkg, JSON.stringify(p), m)
       })
       .then(() => ({
         status: 201,
