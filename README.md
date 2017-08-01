@@ -2,23 +2,17 @@
 
 > Private serverless npm registry
 
-### TODO
-
-- [ ] npm owner
-  - [ ] add [user] [package]  // ? /-/user/[user]
-  - [ ] rm [user] [package]  // DELETE /-/user/[user]
-- [ ] npm access
-  - [ ] grant [permission] [scope] [package] // PUT
-  - [ ] revoke [scope] [package]  // DELETE
-  - [ ] public [package] // POST /-/package/[package]/access
-  - [ ] restricted [package]  // POST /-/package/[package]/access
-  - [ ] ls-collaborators // GET /-/package/[package]/collaborators
-  - [ ] ls-packages // GET /-/org/[user]/package
-
 ## Setup
 
+#### Docker
 ```
-gcloud beta functions deploy npm --stage-bucket [bucket] --trigger-http
+docker build -t chr33s/npm .
+docker run -d -t -i -p 8080:8080 --name npm chr33s/npm
+```
+
+#### Functions
+```
+gcloud beta functions deploy npm  --trigger-http --stage-bucket [bucket]
 gcloud beta functions describe npm
 gcloud beta functions logs read npm
 ```
@@ -28,19 +22,22 @@ gcloud beta functions logs read npm
 ```
 npm set ca null
 npm config set registry <registry>
+npm login --always-auth=true --scope=<scope>?
+```
 
-npm init --scope=<scope>   
-npm update --registry=<registry>
-npm login --registry=<registry> --scope=<scope> --always-auth=true
-npm publish --registry=<registry>
-
-echo "@<scope>:registry=<registry>" >> .npmrc  
+***optional:** scoped registry
+```
+echo "@<scope>:registry=<registry>" >> .npmrc
 ```
 
 #### Server
 
 ```
-cat << EOF > .npmrc
+export NPM_PROTOCOL=https
+export NPM_REGISTRY=npm.domain
+export NPM_TOKEN=$(echo "chr33s:p@ssw0rd" | base64)
+
+cat << EOF > ~/.npmrc
 registry=\${NPM_PROTOCOL}:\${NPM_REGISTRY}
 \${NPM_REGISTRY}/:_authToken=\${NPM_TOKEN}
 EOF

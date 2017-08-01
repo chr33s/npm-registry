@@ -4,8 +4,6 @@
   "description": "serverless npm repository",
   "main": "index.js",
   "scripts": {
-    "build": "docker build -t chr33s/npm .",
-    "postbuild": "docker run -d -t -i -p 8080:8080 --name npm chr33s/npm",
     "start": "node server"
   },
   "dependencies": {
