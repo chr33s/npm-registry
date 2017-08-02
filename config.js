@@ -1,9 +1,10 @@
 'use strict'
 
-let { NPM_REGISTRY, NPM_TTL, NPM_STORAGE, NPM_BUCKET, NPM_SCOPE, NPM_TIMEOUT } = process.env
+let { NODE_ENV, NPM_REGISTRY, NPM_TTL, NPM_STORAGE, NPM_BUCKET, NPM_SCOPE, NPM_TIMEOUT } = process.env
 if (NPM_SCOPE) NPM_SCOPE = NPM_SCOPE.split(',')
 
 const config = {
+  env: NODE_ENV || 'development',
   registry: {
     host: NPM_REGISTRY || 'https://registry.npmjs.org',
     ttl: NPM_TTL || 6 * 60 * 60
