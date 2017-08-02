@@ -1,7 +1,5 @@
 'use strict'
 
-const add = require('./add')
-const ls = require('./ls')
-const rm = require('./rm')
-
-module.exports = { add, ls, rm }
+module.exports.add = require('./add')
+module.exports.ls = require('./ls')
+module.exports.rm = require('./rm')

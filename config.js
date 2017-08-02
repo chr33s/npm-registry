@@ -1,7 +1,6 @@
 'use strict'
 
-let { NODE_ENV, NPM_REGISTRY, NPM_TTL, NPM_STORAGE, NPM_BUCKET, NPM_SCOPE, NPM_TIMEOUT } = process.env
-if (NPM_SCOPE) NPM_SCOPE = NPM_SCOPE.split(',')
+let { NODE_ENV, NPM_REGISTRY, NPM_TTL, NPM_STORAGE, NPM_BUCKET, NPM_TIMEOUT } = process.env
 
 const config = {
   env: NODE_ENV || 'development',
@@ -16,7 +15,6 @@ const config = {
     package: 'packages/{name}',
     tarball: 'tarballs/{name}/{file}/{sha}{ext}'
   },
-  scopes: NPM_SCOPE || [ '@chr33s' ],
   timeout: NPM_TIMEOUT || 3 * 1000
 }
 
