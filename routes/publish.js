@@ -27,16 +27,18 @@ const publish = (req, res) => (
           }
         }
 
+        delete b._attachments
+
         return b
       })
-      .catch(() => {
+      .catch(err => {
+        if (err.code === 409) throw err
+
         body.etag = Math.random().toString()
 
         return body
       })
       .then(b => {
-        delete b._attachments
-
         const date = new Date().toISOString().split('T')[0]
         const version = b['dist-tags'].latest
         const meta = b['versions'][version]
@@ -49,7 +51,7 @@ const publish = (req, res) => (
         maintainers = JSON.stringify(maintainers || [])
         const metadata = { name, scope, description, maintainers, date, version, keywords }
 
-        return storage('save', pkg, JSON.stringify(b), {
+        storage('save', pkg, JSON.stringify(b), {
           metadata: {
             // contentEncoding: req.headers['accept-encoding'],
             contentType: req.headers['content-type'],
@@ -57,7 +59,7 @@ const publish = (req, res) => (
           }
         })
       })
-      .then(p => {
+      .then(() => {
         const attachments = body._attachments
         const promises = []
 
