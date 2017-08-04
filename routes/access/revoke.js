@@ -1,24 +1,20 @@
 'use strict'
 
-const storage = require('../../lib/storage')
-const file = storage.file(`${__dirname}/../../teams.json`)
+const { data } = require('../../lib/storage')
 
 const revoke = (req, res) => (
-  new Promise((resolve, reject) => {
-    const { team } = req.params
-    const pkg = req.body.package
-    const teams = file.read()
+  data('get', ['Team', req.params.team])
+    .then(team => {
+      const pkg = req.body.package
 
-    delete teams[team].permissions[pkg]
+      delete team.permissions[pkg]
 
-    file.write(teams)
-      .then(() => ({
-        status: 200,
-        body: JSON.stringify(`${req.body.package} : revoked`)
-      }))
-      .then(resolve)
-      .catch(reject)
-  })
+      return data('save', ['Team', req.params.team], team)
+        .then(() => ({
+          status: 200,
+          body: JSON.stringify(`${pkg} : revoked`)
+        }))
+    })
 )
 
 module.exports = revoke

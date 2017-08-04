@@ -1,18 +1,13 @@
 'use strict'
 
-const storage = require('../../lib/storage')
-const file = storage.file(`${__dirname}/../../teams.json`)
+const { data } = require('../../lib/storage')
 
 const lsCollaborators = (req, res) => (
-  new Promise((resolve, reject) => {
-    const { team } = req.params
-    const teams = file.read()
-
-    resolve({
+  data('get', ['Team', req.params.team])
+    .then(team => ({
       status: 200,
-      body: teams[team].permissions
-    })
-  })
+      body: team.permissions
+    }))
 )
 
 module.exports = lsCollaborators

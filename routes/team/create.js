@@ -1,28 +1,14 @@
 'use strict'
 
-const error = require('../../lib/error')
-const storage = require('../../lib/storage')
-const file = storage.file(`${__dirname}/../../teams.json`)
+const { data } = require('../../lib/storage')
 
 const create = (req, res) => (
-  new Promise((resolve, reject) => {
-    const { name } = req.body
-    const teams = file.read()
-
-    if (teams[name]) {
-      return reject(error(400, 'team already exists'))
-    }
-
-    teams[name] = { users: [], permissions: {} }
-
-    file.write(teams)
-      .then(p => ({
-        status: 200,
-        body: teams
-      }))
-      .then(resolve)
-      .catch(reject)
-  })
+  data('save', ['Team', req.body.name], { name: req.body.name, users: [], permissions: {} })
+    .then(() => data('get', ['Team', req.body.name]))
+    .then(team => ({
+      status: 200,
+      body: team
+    }))
 )
 
 module.exports = create

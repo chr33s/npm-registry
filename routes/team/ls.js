@@ -1,23 +1,13 @@
 'use strict'
 
-const error = require('../../lib/error')
-const storage = require('../../lib/storage')
-const file = storage.file(`${__dirname}/../../teams.json`)
+const { data } = require('../../lib/storage')
 
-const team = (req, res) => (
-  new Promise((resolve, reject) => {
-    const { name } = req.params
-    const teams = file.read()
-
-    if (!teams[name]) {
-      return reject(error(404, 'team doesnt exists'))
-    }
-
-    resolve({
+const ls = (req, res) => (
+  data('get', ['Team', req.params.name])
+    .then(team => ({
       status: 200,
-      body: teams[name].users
-    })
-  })
+      body: team.users
+    }))
 )
 
-module.exports = team
+module.exports = ls

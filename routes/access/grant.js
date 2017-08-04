@@ -1,25 +1,21 @@
 'use strict'
 
-const storage = require('../../lib/storage')
-const file = storage.file(`${__dirname}/../../teams.json`)
+const { data } = require('../../lib/storage')
 
 const grant = (req, res) => (
-  new Promise((resolve, reject) => {
-    const { permissions } = req.body
-    const { team } = req.params
-    const pkg = req.body.package
-    const teams = file.read()
+  data('get', ['Team', req.params.team])
+    .then(team => {
+      const { permissions } = req.body
+      const pkg = req.body.package
 
-    teams[team].permissions[pkg] = permissions
+      team.permissions[pkg] = permissions
 
-    file.write(teams)
-      .then(() => ({
-        status: 200,
-        body: JSON.stringify(`${req.body.package} : ${permissions} granted`)
-      }))
-      .then(resolve)
-      .catch(reject)
-  })
+      return data('save', ['Team', req.params.team], team)
+        .then(() => ({
+          status: 200,
+          body: JSON.stringify(`${pkg} : ${permissions} granted`)
+        }))
+    })
 )
 
 module.exports = grant
