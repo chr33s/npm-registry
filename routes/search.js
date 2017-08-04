@@ -7,7 +7,7 @@ const search = (req, res) => (
     const { text, size } = req.query
     const pkg = storage.path('package', { name: text }).path
 
-    storage.bucket.getFiles({ prefix: pkg, maxResults: size | 20 })
+    storage.bucket.getFiles({ prefix: pkg, maxResults: size || 20 })
       .then(([files]) => {
         const body = {}
 

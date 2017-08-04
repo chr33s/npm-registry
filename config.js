@@ -12,8 +12,8 @@ const config = {
     host: NPM_STORAGE || 'https://storage.googleapis.com',
     bucket: NPM_BUCKET || 'npm-reg',
     uri: '{host}/{bucket}/{path}',
-    package: 'packages/{name}',
-    tarball: 'tarballs/{name}/{file}/{sha}{ext}'
+    package: '{env}/packages/{name}',
+    tarball: '{env}/tarballs/{name}/{file}/{sha}{ext}'
   },
   timeout: NPM_TIMEOUT || 3 * 1000
 }
