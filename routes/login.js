@@ -1,21 +1,13 @@
 'use strict'
 
-const error = require('../lib/error')
 const auth = require('../lib/auth')
 
-const login = (req) => (
-  new Promise((resolve, reject) => {
-    const { name, password } = req.body
-
-    if (auth.login(name, password)) {
-      resolve({
-        status: 201,
-        body: { authentication: req.body }
-      })
-    } else {
-      reject(error(401))
-    }
-  })
+const login = (req, res) => (
+  auth.login(req, res)
+    .then(authentication => ({
+      status: 201,
+      body: { authentication }
+    }))
 )
 
 module.exports = login

@@ -1,9 +1,13 @@
 'use strict'
 
-const logout = (req) => (
-  new Promise((resolve, reject) => {
-    resolve({ status: 201, ok: 'Logged out' })
-  })
+const auth = require('../lib/auth')
+
+const logout = (req, res) => (
+  auth.logout(req, res)
+    .then(() => ({
+      status: 201,
+      body: { ok: 'Logged out' }
+    }))
 )
 
 module.exports = logout
