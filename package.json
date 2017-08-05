@@ -4,6 +4,7 @@
   "description": "serverless npm repository",
   "main": "index.js",
   "scripts": {
+    "deploy": "gcloud app deploy",
     "start": "node server"
   },
   "dependencies": {
