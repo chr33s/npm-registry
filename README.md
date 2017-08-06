@@ -1,6 +1,6 @@
 # NPM
 
-> Private serverless npm registry
+> Serverless npm registry
 
 ## Setup
 
