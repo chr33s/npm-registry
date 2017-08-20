@@ -3,7 +3,7 @@ env: flex
 
 env_variables:
   NODE_ENV: 'production'
-  NPM_BUCKET: 'npm-reg'
+  NPM_BUCKET: 'npm-registry.appspot.com'
   NPM_REGISTRY: 'https://registry.npmjs.org'
   NPM_STORAGE: 'https://storage.googleapis.com'
   NPM_TIMEOUT: 3000

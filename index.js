@@ -1,5 +1,6 @@
 'use strict'
 
+const { https } = require('firebase-functions')
 const route = require('./routes')
 
 const npm = (req, res) => (
@@ -12,4 +13,5 @@ const npm = (req, res) => (
     })
 )
 
-exports.npm = npm
+module.exports = npm
+exports.npm = https.onRequest(npm)

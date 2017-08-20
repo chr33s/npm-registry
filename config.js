@@ -10,7 +10,7 @@ const config = {
   },
   storage: {
     host: NPM_STORAGE || 'https://storage.googleapis.com',
-    bucket: NPM_BUCKET || 'npm-reg',
+    bucket: NPM_BUCKET || 'npm-registry.appspot.com',
     uri: '{host}/{bucket}/{path}',
     package: '{env}/packages/{name}',
     tarball: '{env}/tarballs/{name}/{file}/{sha}{ext}'

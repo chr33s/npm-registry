@@ -1,23 +1,27 @@
 {
   "name": "@chr33s/npm",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "serverless npm registry",
   "main": "index.js",
   "scripts": {
-    "deploy": "gcloud app deploy",
-    "start": "node server"
+    "deploy": "firebase deploy",
+    "start": "node server",
+    "start:firebase": "firebase serve --only functions,hosting"
+  },
+  "engines": {
+    "node": "~6.11.1"
   },
   "dependencies": {
     "@google-cloud/datastore": "^1.1.0",
     "@google-cloud/logging": "^1.0.4",
     "@google-cloud/storage": "^1.2.1",
-    "body-parser": "^1.17.2",
-    "express": "^4.15.3",
+    "firebase-admin": "^5.2.1",
+    "firebase-functions": "^0.6.2",
     "googleapis": "^20.1.0",
     "path-to-regexp": "^1.7.0"
   },
-  "engines": {
-    "node": ">=8.1.0"
+  "devDependencies": {
+    "body-parser": "^1.17.2"
   },
   "author": "chris",
   "homepage": "https://github.com/chr33s/npm-registry",

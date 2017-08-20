@@ -2,7 +2,7 @@
 
 const bodyParser = require('body-parser')
 const express = require('express')
-const { npm } = require('./')
+const npm = require('./')
 
 const app = express()
 app.set('etag', false)
