@@ -2,12 +2,10 @@
 
 const auth = require('../lib/auth')
 
-const logout = (req, res) => (
-  auth.logout(req, res)
-    .then(() => ({
-      status: 201,
-      body: { ok: 'Logged out' }
-    }))
-)
+const logout = req =>
+  auth.logout(req, res).then(() => ({
+    status: 201,
+    body: { ok: 'Logged out' }
+  }))
 
 module.exports = logout

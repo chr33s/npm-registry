@@ -6,7 +6,9 @@
   "scripts": {
     "deploy": "firebase deploy",
     "start": "node server",
-    "start:firebase": "firebase serve --only functions,hosting"
+    "start:firebase": "firebase serve --only functions,hosting",
+    "lint": "eslint . --ext .js",
+    "format": "prettier --write '**/*.{css,js}'"
   },
   "engines": {
     "node": "~6.14.0",

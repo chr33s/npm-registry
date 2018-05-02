@@ -3,17 +3,19 @@
 const storage = require('../../lib/storage')
 const merge = require('../../lib/merge')
 
-const add = (req, res) => (
+const add = req =>
   new Promise((resolve, reject) => {
     const version = req.body
     const { name, tag } = req.params
     const pkg = storage.path('package', { name }).path
 
     storage('get', pkg)
-      .then(([p]) => (
-        storage('download', pkg)
-          .then(d => ([JSON.parse(d.toString('utf8')), p.metadata]))
-      ))
+      .then(([p]) =>
+        storage('download', pkg).then(d => [
+          JSON.parse(d.toString('utf8')),
+          p.metadata
+        ])
+      )
       .then(([p, meta]) => {
         const { contentType, metadata } = meta
         const m = { metadata: { contentType, metadata } }
@@ -27,6 +29,5 @@ const add = (req, res) => (
       .then(resolve)
       .catch(reject)
   })
-)
 
 module.exports = add

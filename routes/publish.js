@@ -6,13 +6,16 @@ const merge = require('../lib/merge')
 const crypto = require('crypto')
 const path = require('path')
 
-const publish = (req, res) => (
+const publish = req =>
   new Promise((resolve, reject) => {
-    const { body, params: { name, scope } } = req
+    const {
+      body,
+      params: { name, scope }
+    } = req
     const pkg = storage.path('package', { name }).path
 
     storage('download', pkg)
-      .then(p => (JSON.parse(p.toString('utf8'))))
+      .then(p => JSON.parse(p.toString('utf8')))
       .then(p => {
         const b = p ? merge(p, body) : body
         b.etag = Math.random().toString()
@@ -21,7 +24,9 @@ const publish = (req, res) => (
           const tags = Object.keys(body['dist-tags'])
           if (tags.length) {
             const tag = tags[0]
-            if (Object.keys(p.versions).find(v => v === body['dist-tags'][tag])) {
+            if (
+              Object.keys(p.versions).find(v => v === body['dist-tags'][tag])
+            ) {
               throw error(409, 'version already exists')
             }
           }
@@ -49,7 +54,15 @@ const publish = (req, res) => (
           return m
         })
         maintainers = JSON.stringify(maintainers || [])
-        const metadata = { name, scope, description, maintainers, date, version, keywords }
+        const metadata = {
+          name,
+          scope,
+          description,
+          maintainers,
+          date,
+          version,
+          keywords
+        }
 
         storage('save', pkg, JSON.stringify(b), {
           metadata: {
@@ -66,20 +79,25 @@ const publish = (req, res) => (
         for (const filename in attachments) {
           const attachment = attachments[filename]
           const data = Buffer.from(attachment.data, 'base64')
-          const sha = crypto.createHash('sha1').update(data).digest('hex')
+          const sha = crypto
+            .createHash('sha1')
+            .update(data)
+            .digest('hex')
           const ext = path.extname(filename)
           const file = path.basename(filename, ext)
           const tarball = storage.path('tarball', { name, file, sha, ext }).path
 
-          promises.push(storage('save', tarball, data, {
-            metadata: {
-              // contentEncoding: req.headers['accept-encoding'],
-              contentType: attachment['content_type'],
+          promises.push(
+            storage('save', tarball, data, {
               metadata: {
-                'Content-Length': attachment.length
+                // contentEncoding: req.headers['accept-encoding'],
+                contentType: attachment['content_type'],
+                metadata: {
+                  'Content-Length': attachment.length
+                }
               }
-            }
-          }))
+            })
+          )
         }
 
         Promise.all(promises)
@@ -91,6 +109,5 @@ const publish = (req, res) => (
       .then(resolve)
       .catch(reject)
   })
-)
 
 module.exports = publish

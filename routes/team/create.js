@@ -2,7 +2,7 @@
 
 const { data } = require('../../lib/storage')
 
-const create = (req, res) => (
+const create = req =>
   data('save', ['Team', req.body.name], {
     name: req.body.name,
     users: [req.params.scope],
@@ -13,6 +13,5 @@ const create = (req, res) => (
       status: 200,
       body: team
     }))
-)
 
 module.exports = create

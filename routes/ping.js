@@ -1,9 +1,5 @@
 'use strict'
 
-const ping = (req) => (
-  new Promise((resolve, reject) => {
-    resolve({})
-  })
-)
+const ping = () => Promise.resolve({})
 
 module.exports = ping

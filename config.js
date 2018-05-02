@@ -1,6 +1,13 @@
 'use strict'
 
-let { NODE_ENV, NPM_REGISTRY, NPM_TTL, NPM_STORAGE, NPM_BUCKET, NPM_TIMEOUT } = process.env
+let {
+  NODE_ENV,
+  NPM_REGISTRY,
+  NPM_TTL,
+  NPM_STORAGE,
+  NPM_BUCKET,
+  NPM_TIMEOUT
+} = process.env
 
 const config = {
   env: NODE_ENV || 'development',

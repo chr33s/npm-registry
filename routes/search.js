@@ -2,12 +2,13 @@
 
 const storage = require('../lib/storage')
 
-const search = (req, res) => (
+const search = req =>
   new Promise((resolve, reject) => {
     const { text, size } = req.query
     const pkg = storage.path('package', { name: text }).path
 
-    storage.bucket.getFiles({ prefix: pkg, maxResults: size || 20 })
+    storage.bucket
+      .getFiles({ prefix: pkg, maxResults: size || 20 })
       .then(([files]) => {
         const body = {}
 
@@ -38,6 +39,5 @@ const search = (req, res) => (
       .then(resolve)
       .catch(reject)
   })
-)
 
 module.exports = search
