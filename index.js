@@ -13,4 +13,4 @@ const npm = (req, res) =>
     })
 
 module.exports = npm
-exports.npm = https.onRequest(npm)
+module.exports.npm = https.onRequest(npm)
