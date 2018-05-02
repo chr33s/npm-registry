@@ -1,12 +1,12 @@
 {
   "name": "@chr33s/npm",
-  "version": "0.0.2",
+  "version": "0.1.0",
   "description": "serverless npm registry",
   "main": "index.js",
   "scripts": {
-    "deploy": "firebase deploy",
+    "deploy": "firebase deploy --only functions",
     "start": "node server",
-    "start:firebase": "firebase serve --only functions,hosting",
+    "start:firebase": "firebase serve --only functions",
     "lint": "eslint . --ext .js",
     "format": "prettier --write '**/*.{css,js}'"
   },
