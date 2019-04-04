@@ -19,14 +19,15 @@
     "@google-cloud/storage": "2.4.3",
     "firebase-admin": "7.2.0",
     "firebase-functions": "2.2.1",
-    "googleapis": "39.1.0",
+    "googleapis": "39.2.0",
     "path-to-regexp": "3.0.0"
   },
   "devDependencies": {
-    "body-parser": "1.18.3"
+    "body-parser": "1.18.3",
+    "express": "4.16.4"
   },
   "optionalDependencies": {
-    "firebase-tools": "6.5.0"
+    "firebase-tools": "6.5.2"
   },
   "author": "chris",
   "homepage": "https://github.com/chr33s/npm-registry",
