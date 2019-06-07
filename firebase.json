@@ -1,12 +1,14 @@
 {
   "hosting": {
     "public": "public",
-    "rewrites": [ {
-      "source": "**",
-      "function": "npm"
-    } ]
+    "rewrites": [
+      {
+        "source": "/**",
+        "function": "npm"
+      }
+    ]
   },
   "functions": {
-    "source": "./"
+    "source": "."
   }
 }
