@@ -9,6 +9,18 @@
     ]
   },
   "functions": {
+    "ignore": [
+      "node_modules",
+      "public",
+      "*/.*",
+      ".firebase",
+      "app.yaml",
+      "Dockerfile",
+      "LICENSE",
+      "README.md",
+      "server.js",
+      "test.js"
+    ],
     "source": "."
   }
 }

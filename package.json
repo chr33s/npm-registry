@@ -1,13 +1,13 @@
 {
   "name": "@chr33s/npm",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "description": "serverless npm registry",
   "main": "index.js",
   "scripts": {
     "firebase:deploy": "firebase deploy -m $(git log -n 1 master --pretty=format:\"%H\")",
     "firebase:start": "firebase serve --port 8080",
     "start": "node server",
-    "lint": "eslint . --ext .js",
+    "lint": "eslint --fix . --ext .js",
     "format": "prettier --write '**/*.{css,js}'"
   },
   "engines": {
@@ -17,21 +17,19 @@
     "@google-cloud/datastore": "4.1.0",
     "@google-cloud/logging": "5.1.0",
     "@google-cloud/storage": "2.5.0",
-    "firebase-admin": "8.0.0",
-    "firebase-functions": "2.3.1",
+    "firebase-admin": "8.9.2",
+    "firebase-functions": "3.3.0",
+    "firebase-tools": "7.14.0",
     "googleapis": "40.0.0"
   },
   "devDependencies": {
-    "babel-eslint": "10.0.1",
+    "babel-eslint": "10.1.0",
     "body-parser": "1.19.0",
-    "eslint": "5.16.0",
-    "eslint-config-prettier": "4.3.0",
-    "eslint-plugin-prettier": "3.1.0",
+    "eslint": "6.8.0",
+    "eslint-config-prettier": "6.10.0",
+    "eslint-plugin-prettier": "3.1.2",
     "express": "4.17.1",
-    "prettier": "1.18.0"
-  },
-  "optionalDependencies": {
-    "firebase-tools": "6.11.0"
+    "prettier": "1.19.1"
   },
   "author": "chris",
   "homepage": "https://github.com/chr33s/npm-registry",
